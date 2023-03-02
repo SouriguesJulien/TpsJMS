@@ -1,4 +1,4 @@
-import jakarta.jms.*;
+import javax.jms.*;
 import javax.naming.*;
 import java.io.*;
 
@@ -19,11 +19,13 @@ public class  Emetteur {
         QueueSender sender = session.createSender(queue);
         TextMessage msg = session.createTextMessage();
 
-        msg.setText(args[0]);
-        if (args.length > 1) {
-            msg.setStringProperty("destinataire", args[1]);
+		  for (int i=0; i<5; i++){
+        		msg.setText(args[0]);
+        		if (args.length > 1) {
+         		msg.setStringProperty("destinataire", args[1]);
+        		}
+        		sender.send(msg);
         }
-        sender.send(msg);
 
         connection.close();
     }

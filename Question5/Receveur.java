@@ -1,4 +1,4 @@
-import jakarta.jms.*;
+import javax.jms.*;
 import javax.naming.*;
 import java.io.*;
 
@@ -10,7 +10,7 @@ public class  Receveur {
         QueueConnectionFactory connectionFactory = (QueueConnectionFactory) messaging.lookup("jms/ConnectionFactoryPtP");
         Queue queue = (Queue) messaging.lookup("jms/QueuePtP");
         QueueConnection connection = connectionFactory.createQueueConnection();
-        QueueSession session = connection.createQueueSession(false,Session.AUTO_ACKNOWLEDGE);
+        QueueSession session = connection.createQueueSession(false,Session.CLIENT_ACKNOWLEDGE);
         connection.start();
 
         String destinataire = "";
@@ -30,6 +30,8 @@ public class  Receveur {
         while (true){
             TextMessage msg = (TextMessage) receiver.receive();
             System.out.println(msg.getText());
+            Thread.sleep(3000);
+            msg.acknowledge();
         }
 
         //connection.close();
